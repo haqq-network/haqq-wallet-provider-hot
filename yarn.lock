@@ -567,16 +567,16 @@
   resolved "https://registry.yarnpkg.com/@haqq/encryption-react-native/-/encryption-react-native-0.0.1.tgz#4307eff76660aed018884f1f2895c286f610ed0a"
   integrity sha512-V3qvgGBrzOR75pxuNQ4Rgp/75enD6rbbLGlU6WGiyltYuKZErZL02e0PU1TpsYmTNXdo8LaHnoTWfprtxA3oWA==
 
-"@haqq/provider-base@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@haqq/provider-base/-/provider-base-0.0.11.tgz#cc5ed8b981c5b2a9e46898fbeb41b725cf25a6d0"
-  integrity sha512-rim+sWDcNIT5eC8Zm4/KpbFIzevzlVLoVWPCZS0JzX5rhRRZXj8SU2u+Fp1MTaJymmxh7vui1tASHWckdOITFg==
+"@haqq/provider-base@0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@haqq/provider-base/-/provider-base-0.0.13.tgz#c4f1a7c5879f17c629a4bfdc9b20032a20e1b852"
+  integrity sha512-Uyu8/ADS7BxsWzTPIoaiOWlp/Ptpm8Ww0R+L8lV6o3D6jWw+oz/D3oLcQ8igAPKpysm6D+OQwadoczKa4GfIRw==
   dependencies:
     "@ethersproject/abstract-provider" "^5.7.0"
     bech32-converting "^1.0.9"
     events "^3.3.0"
 
-"@haqq/provider-web3-utils@^0.0.5":
+"@haqq/provider-web3-utils@0.0.5":
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/@haqq/provider-web3-utils/-/provider-web3-utils-0.0.5.tgz#ae7a9224836f2e82b0a464b943c91d19df239acd"
   integrity sha512-gAHFaHeA7Xff15T4PPg5dnHZMR3zfRzIFU2V8HzAs3H8t24HQwLNeFmZ2z55zJlsAY0N6vVUn0lRSLHkYbbMhg==

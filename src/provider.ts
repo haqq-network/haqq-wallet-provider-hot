@@ -9,13 +9,14 @@ import {
   Provider as ProviderBase,
   ProviderInterface
 } from '@haqq/provider-base';
+import {ProviderBaseOptions} from '@haqq/provider-base/src/types';
 import {accountInfo, sign} from '@haqq/provider-web3-utils'
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {getPrivateKey} from './get-private-key';
 import {ProviderHotOptions} from './types';
 
-export class Provider extends ProviderBase<ProviderHotOptions> implements ProviderInterface {
-  static async initialize(privateKey: string, getPassword: () => Promise<string>): Promise<string> {
+export class ProviderHotReactNative extends ProviderBase<ProviderHotOptions> implements ProviderInterface {
+  static async initialize(privateKey: string, getPassword: () => Promise<string>, options: Omit<ProviderBaseOptions, 'getPassword'>): Promise<ProviderHotReactNative> {
     const password = await getPassword();
     const privateData = await encrypt(password, {
       privateKey,
@@ -24,24 +25,22 @@ export class Provider extends ProviderBase<ProviderHotOptions> implements Provid
     const {address} = await accountInfo(privateKey)
 
     await EncryptedStorage.setItem(
-      `hot_${address}`,
+      `hot_${address.toLowerCase()}`,
       JSON.stringify(privateData)
     );
 
-    return address
+    return new ProviderHotReactNative({
+      ...options,
+      getPassword,
+      account: address.toLowerCase()
+    })
   }
 
-  async getEthAddress(hdPath: string): Promise<string> {
-    const {address} = await this.getPublicKeyAndAddressForHDPath(hdPath)
-    return address
+  getIdentifier() {
+    return this._options.account
   }
 
-  async getPublicKey(hdPath: string) {
-    const {publicKey} = await this.getPublicKeyAndAddressForHDPath(hdPath)
-    return publicKey
-  }
-
-  async getPublicKeyAndAddressForHDPath(_hdPath: string) {
+  async getAccountInfo(_hdPath: string) {
     let resp = {publicKey: '', address: ''}
     try {
       const privateKey = await getPrivateKey(this._options.account, this._options.getPassword)
