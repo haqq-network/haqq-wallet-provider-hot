@@ -35,6 +35,34 @@ export class ProviderHotReactNative extends ProviderBase<ProviderHotOptions> imp
     })
   }
 
+  async updatePin(pin: string) {
+    try {
+      const decryptedData = await getPrivateKey(this._options.account, this._options.getPassword)
+      const privateData = await encrypt(pin, decryptedData);
+
+      await EncryptedStorage.setItem(
+        `hot_${this.getIdentifier().toLowerCase()}`,
+        privateData
+      );
+    } catch (e) {
+      if (e instanceof Error) {
+        this.catchError(e, 'updatePin')
+      }
+    }
+  }
+
+  async clean() {
+    try {
+      await EncryptedStorage.removeItem(
+        `hot_${this.getIdentifier().toLowerCase()}`
+      );
+    } catch (e) {
+      if (e instanceof Error) {
+        this.catchError(e, 'clean')
+      }
+    }
+  }
+
   getIdentifier() {
     return this._options.account
   }
@@ -42,7 +70,7 @@ export class ProviderHotReactNative extends ProviderBase<ProviderHotOptions> imp
   async getAccountInfo(_hdPath: string) {
     let resp = {publicKey: '', address: ''}
     try {
-      const privateKey = await getPrivateKey(this._options.account, this._options.getPassword)
+      const {privateKey} = await getPrivateKey(this._options.account, this._options.getPassword)
       const account = await accountInfo(privateKey);
 
       resp = {
@@ -58,10 +86,10 @@ export class ProviderHotReactNative extends ProviderBase<ProviderHotOptions> imp
     return resp
   }
 
-  async getSignedTx(_hdPath: string, transaction: TransactionRequest): Promise<string> {
+  async signTransaction(_hdPath: string, transaction: TransactionRequest): Promise<string> {
     let resp = ''
     try {
-      const privateKey = await getPrivateKey(this._options.account, this._options.getPassword);
+      const {privateKey} = await getPrivateKey(this._options.account, this._options.getPassword);
 
       if (!privateKey) {
         throw new Error('private_key_not_found');
@@ -76,10 +104,36 @@ export class ProviderHotReactNative extends ProviderBase<ProviderHotOptions> imp
 
       resp = serialize(transaction as UnsignedTransaction, sig);
 
-      this.emit('getSignedTx', true);
+      this.emit('signTransaction', true);
     } catch (e) {
       if (e instanceof Error) {
-        this.catchError(e, 'getSignedTx')
+        this.catchError(e, 'signTransaction')
+      }
+    }
+
+    return resp
+  }
+
+  async signPersonalMessage(hdPath: string, message: string): Promise<string> {
+    let resp = ''
+    try {
+      const {privateKey} = await getPrivateKey(this._options.account, this._options.getPassword);
+
+      if (!privateKey) {
+        throw new Error('private_key_not_found');
+      }
+
+      const msg = `\x19Ethereum Signed Message:\n${message.length}${message}`;
+
+
+      resp = await sign(
+        privateKey,
+        msg,
+      );
+      this.emit('signTransaction', true);
+    } catch (e) {
+      if (e instanceof Error) {
+        this.catchError(e, 'signTransaction')
       }
     }
 
@@ -89,7 +143,7 @@ export class ProviderHotReactNative extends ProviderBase<ProviderHotOptions> imp
   async signTypedData(_hdPath: string, domainHash: string, valueHash: string): Promise<string> {
     let response = ''
     try {
-      const privateKey = await getPrivateKey(this._options.account, this._options.getPassword);
+      const {privateKey} = await getPrivateKey(this._options.account, this._options.getPassword);
 
       if (!privateKey) {
         throw new Error('private_key_not_found');

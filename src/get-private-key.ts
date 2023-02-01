@@ -9,11 +9,11 @@ export async function getPrivateKey(id: string, getPassword: () => Promise<strin
     throw new Error('encrypted_data_not_found')
   }
 
-  const {privateKey} = await decrypt<{privateKey: string}>(password, data);
+  const resp = await decrypt<{privateKey: string}>(password, data);
 
-  if (!privateKey) {
+  if (!resp.privateKey) {
     throw new Error('private_key_not_found');
   }
 
-  return privateKey
+  return resp
 }
