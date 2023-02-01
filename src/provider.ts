@@ -1,12 +1,15 @@
-import {TransactionRequest} from '@ethersproject/abstract-provider';
 import {hexConcat} from '@ethersproject/bytes';
 import {serialize, UnsignedTransaction} from '@ethersproject/transactions';
 import {encrypt} from '@haqq/encryption-react-native';
 import {
+  BytesLike,
   compressPublicKey,
   hexStringToByteArray,
+  joinSignature,
   Provider as ProviderBase,
-  ProviderInterface
+  ProviderInterface,
+  stringToUtf8Bytes,
+  TransactionRequest
 } from '@haqq/provider-base';
 import {ProviderBaseOptions} from '@haqq/provider-base/src/types';
 import {accountInfo, sign} from '@haqq/provider-web3-utils'
@@ -114,7 +117,7 @@ export class ProviderHotReactNative extends ProviderBase<ProviderHotOptions> imp
     return resp
   }
 
-  async signPersonalMessage(hdPath: string, message: string): Promise<string> {
+  async signPersonalMessage(hdPath: string, message: BytesLike | string): Promise<string> {
     let resp = ''
     try {
       const {privateKey} = await getPrivateKey(this._options.account, this._options.getPassword);
@@ -123,13 +126,13 @@ export class ProviderHotReactNative extends ProviderBase<ProviderHotOptions> imp
         throw new Error('private_key_not_found');
       }
 
-      const msg = `\x19Ethereum Signed Message:\n${message.length}${message}`;
+      const m = Array.from(typeof message === 'string' ? stringToUtf8Bytes(message) : message);
 
-
-      resp = await sign(
-        privateKey,
-        msg,
-      );
+      const hash = Buffer.from([25, 69, 116, 104, 101, 114, 101, 117, 109, 32, 83, 105, 103, 110, 101, 100, 32, 77, 101, 115, 115, 97, 103, 101, 58, 10].concat(
+        stringToUtf8Bytes(String(message.length)), m
+      )).toString('hex');
+      const signature = await sign(privateKey, hash,);
+      resp = '0x' + joinSignature(signature);
       this.emit('signTransaction', true);
     } catch (e) {
       if (e instanceof Error) {

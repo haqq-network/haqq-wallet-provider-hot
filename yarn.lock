@@ -567,10 +567,10 @@
   resolved "https://registry.yarnpkg.com/@haqq/encryption-react-native/-/encryption-react-native-0.0.1.tgz#4307eff76660aed018884f1f2895c286f610ed0a"
   integrity sha512-V3qvgGBrzOR75pxuNQ4Rgp/75enD6rbbLGlU6WGiyltYuKZErZL02e0PU1TpsYmTNXdo8LaHnoTWfprtxA3oWA==
 
-"@haqq/provider-base@0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@haqq/provider-base/-/provider-base-0.0.14.tgz#e045666a73c5750ffcb855e28ae7b0c21f2346a4"
-  integrity sha512-KOOwv8t2sMZb6kv4a6uJl56hf4HlNDR2OBjm5rvwK4zKriSiLFaFmQ41LnRUp97bjUOLmmismwnAcmtQqCmIzw==
+"@haqq/provider-base@0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@haqq/provider-base/-/provider-base-0.0.15.tgz#dbc17325c2955f1856b0304371cb0c98efac3ab6"
+  integrity sha512-R9PzBEroi2nnxIU0/s37gV6RJ9D9pqbwU+GZGkupxqQ/bqZX/mvtQgeqvL8k6A4wNjORktwFqVeysxqkOvdceg==
   dependencies:
     bech32-converting "^1.0.9"
     events "^3.3.0"
