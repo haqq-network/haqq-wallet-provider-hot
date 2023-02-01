@@ -1,11 +1,10 @@
 import {TransactionRequest} from '@ethersproject/abstract-provider';
-import {hexConcat, joinSignature} from '@ethersproject/bytes';
-import {keccak256} from '@ethersproject/keccak256';
-import {SigningKey} from '@ethersproject/signing-key';
+import {hexConcat} from '@ethersproject/bytes';
 import {serialize, UnsignedTransaction} from '@ethersproject/transactions';
 import {encrypt} from '@haqq/encryption-react-native';
 import {
-  compressPublicKey, hexStringToByteArray,
+  compressPublicKey,
+  hexStringToByteArray,
   Provider as ProviderBase,
   ProviderInterface
 } from '@haqq/provider-base';
@@ -26,7 +25,7 @@ export class ProviderHotReactNative extends ProviderBase<ProviderHotOptions> imp
 
     await EncryptedStorage.setItem(
       `hot_${address.toLowerCase()}`,
-      JSON.stringify(privateData)
+      privateData
     );
 
     return new ProviderHotReactNative({

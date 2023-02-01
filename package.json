@@ -1,8 +1,9 @@
 {
   "name": "@haqq/provider-hot-react-native",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Provider for hot wallet",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": "https://github.com/haqq-network/haqq-wallet-provider-hot",
   "author": "Andrey Makarov <viva.la.akam@gmail.com>",
   "license": "MIT",
