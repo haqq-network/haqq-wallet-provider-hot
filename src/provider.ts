@@ -2,18 +2,19 @@ import {hexConcat} from '@ethersproject/bytes';
 import {serialize, UnsignedTransaction} from '@ethersproject/transactions';
 import {encrypt} from '@haqq/encryption-react-native';
 import {
-  BytesLike,
   compressPublicKey,
   hexStringToByteArray,
   joinSignature,
+  stringToUtf8Bytes,
+  BytesLike,
   Provider as ProviderBase,
   ProviderInterface,
-  stringToUtf8Bytes,
   TransactionRequest
 } from '@haqq/provider-base';
 import {ProviderBaseOptions} from '@haqq/provider-base/src/types';
 import {accountInfo, sign} from '@haqq/provider-web3-utils'
 import EncryptedStorage from 'react-native-encrypted-storage';
+import {ITEM_KEY} from './constants';
 import {getPrivateKey} from './get-private-key';
 import {ProviderHotOptions} from './types';
 
@@ -27,7 +28,7 @@ export class ProviderHotReactNative extends ProviderBase<ProviderHotOptions> imp
     const {address} = await accountInfo(privateKey)
 
     await EncryptedStorage.setItem(
-      `hot_${address.toLowerCase()}`,
+      `${ITEM_KEY}_${address.toLowerCase()}`,
       privateData
     );
 
@@ -44,7 +45,7 @@ export class ProviderHotReactNative extends ProviderBase<ProviderHotOptions> imp
       const privateData = await encrypt(pin, decryptedData);
 
       await EncryptedStorage.setItem(
-        `hot_${this.getIdentifier().toLowerCase()}`,
+        `${ITEM_KEY}_${this.getIdentifier().toLowerCase()}`,
         privateData
       );
     } catch (e) {
@@ -57,7 +58,7 @@ export class ProviderHotReactNative extends ProviderBase<ProviderHotOptions> imp
   async clean() {
     try {
       await EncryptedStorage.removeItem(
-        `hot_${this.getIdentifier().toLowerCase()}`
+        `${ITEM_KEY}_${this.getIdentifier().toLowerCase()}`
       );
     } catch (e) {
       if (e instanceof Error) {
