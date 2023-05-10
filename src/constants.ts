@@ -1,1 +1,1 @@
-export const ITEM_KEY = 'hot'
+export const ITEM_KEY = 'hot';
