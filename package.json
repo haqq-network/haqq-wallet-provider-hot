@@ -1,6 +1,6 @@
 {
   "name": "@haqq/provider-hot-react-native",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Provider for hot wallet",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@haqq/encryption-react-native": "^0.0.3",
-    "@haqq/provider-base": "0.0.20",
+    "@haqq/provider-base": "0.0.22",
     "@haqq/provider-web3-utils": "0.0.12",
     "@haqq/shared-react-native": "^0.0.7",
     "@types/jest": "^29.5.1",
