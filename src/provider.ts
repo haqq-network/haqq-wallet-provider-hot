@@ -12,6 +12,7 @@ import {
   ProviderInterface,
   TransactionRequest,
   TypedData,
+  calcTypedDataSignatureV,
 } from '@haqq/provider-base';
 import {ProviderBaseOptions} from '@haqq/provider-base/src/types';
 import {accountInfo, sign} from '@haqq/provider-web3-utils';
@@ -210,6 +211,6 @@ export class ProviderHotReactNative
       }
     }
 
-    return response;
+    return calcTypedDataSignatureV(response);
   }
 }
