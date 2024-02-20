@@ -2,6 +2,7 @@ import {hexConcat} from '@ethersproject/bytes';
 import {serialize, UnsignedTransaction} from '@ethersproject/transactions';
 import {encrypt} from '@haqq/encryption-react-native';
 import {
+  calcTypedDataSignatureV,
   compressPublicKey,
   hexStringToByteArray,
   joinSignature,
@@ -210,6 +211,6 @@ export class ProviderHotReactNative
       }
     }
 
-    return response;
+    return calcTypedDataSignatureV(response);
   }
 }
