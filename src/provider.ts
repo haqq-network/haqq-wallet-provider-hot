@@ -62,11 +62,19 @@ export class ProviderHotReactNative
         this._options.account,
         this._options.getPassword,
       );
-      const privateData = await encrypt(pin, decryptedData);
+
+      const privateData = await encryptShare(
+        {
+          share: decryptedData.share,
+          shareIndex: '0',
+          polynomialID: '0',
+        },
+        pin,
+      );
 
       await EncryptedStorage.setItem(
         `${ITEM_KEY}_${this.getIdentifier().toLowerCase()}`,
-        privateData,
+        JSON.stringify(privateData),
       );
     } catch (e) {
       if (e instanceof Error) {
